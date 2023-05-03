@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Clinician Video Web Page</title>
+	<link href="./node_modules/video.js/dist/video-js.min.css" rel="stylesheet">
+    <script src="./node_modules/video.js/dist/video.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
+
+    <style>
+		.container {
+			display: flex;
+			flex-direction: row;
+			align-items: flex-start;
+		}
+		
+		.bullet-points {
+			width: 150px;
+			margin-right: 20px;
+		}
+		
+		.bullet-point {
+			list-style-type: disc;
+			margin: 10px 0;
+			padding-left: 15px;
+			font-weight: bold;
+			font-size: 16px;
+		}
+		
+		.video-container {
+			flex-grow: 1;
+			margin-bottom: 20px;
+		}
+
+		#timewheel1, #timewheel2 {
+			width: 100%;
+		}
+
+		.timeText {
+			display: inline-block;
+			width: 40px;
+			text-align: right;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<ul class="bullet-points">
+			<li class="bullet-point">Gaze</li>
+			<li class="bullet-point">Transcripts</li>
+			<li class="bullet-point">Crying</li>
+			<li class="bullet-point">Blinking</li>
+		</ul> 
+
+		<div class="video-container">
+			<video id="my-video1" class="video-js" controls preload="auto" width="640" height="264" data-setup="{}"oncontextmenu="return false;">
+				<source src="file:///C:/Users/nisha/Desktop\demo Video\demo.mp4" type='video/mp4'>
+				<p class="vjs-no-js">
+					To view this video please enable JavaScript, and consider upgrading to a web browser that
+					<a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+				</p>
+			</video>
+			<input type="range" id="timewheel1" min="0" max="100" step="1" value="0">
+			<div class="timeText">
+				<span id="timeText1">0</span>s
+			</div>
+		</div>
+
+		<script>
+	var video1 = document.getElementById("my-video1");
+
+	video1.addEventListener("contextmenu", function(e) {
+		e.preventDefault();
+	});
+
+	video1.addEventListener("click", function(e) {
+		if (e.button === 0) {
+			e.preventDefault();
+		}
+	});
+
+</script>
+
+		<!--
+		<div class="video-container"> 
+			<video id="my-video2" class="video-js" controls preload="auto" width="640" height="264" data-setup="{}">
+				<source src="file:///C:/Users/nisha/Downloads/Patient.mp4" type='video/mp4'>
+				<p class="vjs-no-js">
+					To view this video please enable JavaScript, and consider upgrading to a web browser that
+					<a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+				</p>
+			</video>
+			<input type="range" id="timewheel2" min="0" max="100" step="1" value="0">
+			<div class="timeText">
+				<span id="timeText2">0</span>s
+			</div>
+		</div> 
+	</div>
+	-->
+	<button onclick="playBothVideos()">Play Both Videos</button>
+    <button onclick="pauseVideos()">Pause Videos</button>
+
+<script>
+	function playBothVideos() {
+		var myVideo1 = document.getElementById("my-video1");
+		var myVideo2 = document.getElementById("my-video2");
+		myVideo1.play();
+		myVideo2.play();
+	}
+
+	function pauseVideos() {
+		var myVideo1 = document.getElementById("my-video1");
+		var myVideo2 = document.getElementById("my-video2");
+		myVideo1.pause();
+		myVideo2.pause();
+	}
+</script>
+
+
+	<script>
+		var video1 = document.getElementById("my-video1");
+		var timeWheel1 = document.getElementById("timewheel1");
+		var timeText1 = document.getElementById("timeText1");
+
+		timewheel1.max = video1.duration;
+
+		function updateTime1() {
+			// Get the current time of the video and update the time wheel and text
+			var currentTime = video1.currentTime;
+			timeWheel1.value = currentTime;
+			timeText1.textContent = currentTime.toFixed(1);
+		}
+
+		function seekToTime1() {
+			// Seek to the time selected by the user on the time wheel
+			var timeToSeek = timeWheel1.value;
+			video1.currentTime = timeToSeek;
+		}
+
+		// Update the time wheel and text whenever the video is playing or seeking
+		video1.addEventListener("timeupdate", updateTime1);
+		video1.addEventListener("seeked", updateTime1);
+
+		// Seek to the selected time whenever the user changes the value on the time wheel
+		timeWheel1.addEventListener("input", seekToTime1);
+
+		var video2 = document.getElementById("my-video2");
+		var timeWheel2 = document.getElementById("timewheel2");
+
+		var timeText2 = document.getElementById("timeText2");
+
+function updateTime2() {
+    // Get the current time of the video and update the time wheel and text
+    var currentTime = video2.currentTime;
+    timeWheel2.value = currentTime;
+    timeText2.textContent = currentTime.toFixed(1);
+}
+
+function seekToTime2() {
+    // Seek to the time selected by the user on the time wheel
+    var timeToSeek = timeWheel2.value;
+    video2.currentTime = timeToSeek;
+}
+
+// Update the time wheel and text whenever the video is playing or seeking
+video2.addEventListener("timeupdate", updateTime2);
+video2.addEventListener("seeked", updateTime2);
+
+// Seek to the selected time whenever the user changes the value on the time wheel
+timeWheel2.addEventListener("input", seekToTime2);
+
+
+	
+    </script>
+
+ </body>
+
+ </html>
